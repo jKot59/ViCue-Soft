@@ -1,19 +1,26 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { Route, Routes } from 'react-router';
+import { BrowserRouter as Router } from 'react-router-dom';
+import App from './components/App/App';
+import BeerItemPage from './pages/BeerItemPage/BeerItemPage';
+import { AnimatePresence } from 'framer-motion';
 
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-);
+const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
+const queryClient = new QueryClient();
+
 root.render(
   <React.StrictMode>
-    <App />
+    <AnimatePresence>
+      <QueryClientProvider client={queryClient}>
+        <Router>
+          <Routes>
+            <Route path='/' element={<App />} />
+            <Route path='/beer/:id' element={<BeerItemPage />} />
+          </Routes>
+        </Router>
+      </QueryClientProvider>
+    </AnimatePresence>
   </React.StrictMode>
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
